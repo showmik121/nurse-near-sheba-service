@@ -1,17 +1,31 @@
 
-import React from "react";
+import React, { useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import ServiceCard from "@/components/ServiceCard";
 import NurseCard from "@/components/NurseCard";
 import { serviceCategories } from "@/data/servicesData";
 import { nursesData } from "@/data/nursesData";
 import { Button } from "@/components/ui/button";
+import LoginDialog from "@/components/LoginDialog";
+import { UserIcon } from "lucide-react";
 
 const Index = () => {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+
   return (
     <div className="nurse-near-app p-4">
       <header className="mb-6">
-        <h1 className="text-4xl font-bold text-primary mb-6">NurseNear</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-4xl font-bold text-primary">NurseNear</h1>
+          <Button 
+            variant="outline" 
+            className="flex items-center gap-2"
+            onClick={() => setIsLoginOpen(true)}
+          >
+            <UserIcon size={18} />
+            <span>Login</span>
+          </Button>
+        </div>
         <SearchBar placeholder="Search for services" />
       </header>
 
@@ -43,6 +57,8 @@ const Index = () => {
           ))}
         </div>
       </section>
+
+      <LoginDialog isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
 
       <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-2">
         <div className="max-w-[500px] mx-auto flex justify-around">
