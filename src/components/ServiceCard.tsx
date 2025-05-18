@@ -4,13 +4,17 @@ import { ServiceCategory } from "../data/servicesData";
 
 interface ServiceCardProps {
   service: ServiceCategory;
+  hasPromo?: boolean;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ service, hasPromo = false }) => {
   return (
-    <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-      <div className="text-3xl mb-2">{service.icon}</div>
-      <p className="text-sm font-medium text-gray-800">{service.name}</p>
+    <div className="relative service-card">
+      {hasPromo && (
+        <span className="service-promo">Promo</span>
+      )}
+      <div className="text-4xl mb-3">{service.icon}</div>
+      <p className="text-sm font-medium text-center text-gray-800">{service.name}</p>
     </div>
   );
 };

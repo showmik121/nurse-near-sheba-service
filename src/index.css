@@ -7,7 +7,7 @@
 
 @layer base {
   :root {
-    --background: 210 50% 98%;
+    --background: 340 30% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -16,17 +16,17 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 210 90% 50%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 340 84% 50%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 100% 97%;
+    --secondary: 340 40% 98%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 210 40% 96.1%;
+    --muted: 340 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 262 82% 74%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -52,7 +52,7 @@
   max-width: 500px;
   margin: 0 auto;
   min-height: 100vh;
-  background-color: #F4F9FD;
+  background-color: #FDFAFC;
 }
 
 .star-rating {
@@ -60,22 +60,22 @@
 }
 
 .service-icon {
-  color: #1A73E8;
+  color: #DD256B;
   font-size: 2rem;
 }
 
-/* New animations and styling */
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
+/* New service card styling inspired by Uber */
+.service-card {
+  @apply bg-white rounded-xl p-4 flex flex-col items-center justify-center shadow-sm transition-all;
+  aspect-ratio: 1/1;
 }
 
-.animate-pulse {
-  animation: pulse 2s infinite;
+.service-card:hover {
+  @apply shadow-md transform -translate-y-1;
+}
+
+.service-promo {
+  @apply absolute top-0 right-0 bg-green-500 text-white text-xs font-medium px-2 py-0.5 rounded-tr-xl rounded-bl-xl;
 }
 
 /* Card hover effects */
@@ -89,16 +89,16 @@
 }
 
 /* Gradient backgrounds */
-.bg-gradient-blue {
-  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-}
-
-.bg-gradient-green {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+.bg-gradient-pink {
+  background: linear-gradient(135deg, #fde2ed 0%, #fac2d9 100%);
 }
 
 .bg-gradient-purple {
   background: linear-gradient(135deg, #ede9fe 0%, #c4b5fd 100%);
+}
+
+.bg-gradient-blue {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
 }
 
 /* Improved scrollbar */

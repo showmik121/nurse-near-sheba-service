@@ -26,15 +26,15 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: '#1A73E8',  // Updated blue to match the image
+					DEFAULT: '#DD256B',  // HelloTask pink
 					foreground: '#FFFFFF'
 				},
 				secondary: {
-					DEFAULT: '#E3F2FD',
+					DEFAULT: '#F8F1F5',
 					foreground: '#333333'
 				},
 				accent: {
-					DEFAULT: '#4CAF50', // Green accent from the image
+					DEFAULT: '#9B87F5', // Purple accent
 					foreground: '#FFFFFF'
 				},
 				destructive: {
@@ -92,7 +92,7 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out'
 			},
 			fontFamily: {
-				bangla: ['SolaimanLipi', 'Arial', 'sans-serif'],
+				bangla: ['Noto Sans Bengali', 'Arial', 'sans-serif'],
 			}
 		}
 	},
