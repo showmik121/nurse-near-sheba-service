@@ -44,7 +44,7 @@ const Index = () => {
         <SearchBar placeholder={t('search')} />
       </header>
 
-      <section className="mb-8 bg-white rounded-lg shadow-sm p-4">
+      <section className="mb-8 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg shadow-sm p-4">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold">{t('services')}</h2>
           <Button variant="ghost" className="text-sm text-primary p-0">{t('viewAll')}</Button>
@@ -73,64 +73,77 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="mb-8 bg-white rounded-lg shadow-sm p-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold">
-            {language === 'en' ? 'How it works' : 'কিভাবে কাজ করে?'}
-          </h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-blue-50 p-4 rounded-lg text-center">
-            <div className="bg-blue-100 h-16 w-16 flex items-center justify-center rounded-full mx-auto mb-3">
-              <UserIcon className="text-primary" size={24} />
-            </div>
-            <h3 className="font-semibold mb-2">
-              {language === 'en' ? 'Register/Login' : 'রেজিস্টার/লগইন করুন'}
-            </h3>
-            <p className="text-sm text-gray-600">
+      {/* New Feature: Quick Emergency Section */}
+      <section className="mb-8 bg-gradient-to-r from-red-50 to-orange-50 rounded-lg shadow-sm p-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between">
+          <div className="mb-4 sm:mb-0">
+            <h2 className="text-xl font-bold text-red-600 mb-2">
+              {language === 'en' ? 'Emergency Care' : 'জরুরী সেবা'}
+            </h2>
+            <p className="text-gray-700 max-w-md">
               {language === 'en' 
-                ? 'Create your account or login to access services' 
-                : 'সেবা পেতে একাউন্ট তৈরি করুন অথবা লগইন করুন'}
+                ? 'Need immediate assistance? Connect with available nurses right now.'
+                : 'অবিলম্বে সাহায্য প্রয়োজন? এখনই উপলব্ধ নার্সদের সাথে যোগাযোগ করুন।'}
             </p>
           </div>
-          <div className="bg-blue-50 p-4 rounded-lg text-center">
-            <div className="bg-blue-100 h-16 w-16 flex items-center justify-center rounded-full mx-auto mb-3">
-              <MapPinIcon className="text-primary" size={24} />
+          <Button className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full shadow-lg animate-pulse">
+            {language === 'en' ? 'Get Emergency Care' : 'জরুরী সেবা নিন'}
+          </Button>
+        </div>
+      </section>
+
+      {/* New Feature: Testimonials Slider */}
+      <section className="mb-8 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg shadow-sm p-6">
+        <h2 className="text-xl font-bold mb-4 text-center">
+          {language === 'en' ? 'What Our Clients Say' : 'আমাদের ক্লায়েন্টরা যা বলে'}
+        </h2>
+        <div className="bg-white rounded-xl p-5 shadow-md">
+          <div className="flex items-center mb-4">
+            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">
+              SR
             </div>
-            <h3 className="font-semibold mb-2">
-              {language === 'en' ? 'Find Nurses' : 'নার্স খুঁজুন'}
-            </h3>
-            <p className="text-sm text-gray-600">
+            <div className="ml-4">
+              <h3 className="font-bold">
+                {language === 'en' ? 'Sarah Rahman' : 'সারাহ রহমান'}
+              </h3>
+              <div className="flex star-rating">★★★★★</div>
+            </div>
+          </div>
+          <p className="text-gray-700 italic">
+            {language === 'en'
+              ? '"The service was exceptional! The nurse was professional, caring, and arrived on time. Will definitely use NurseNear again."'
+              : '"সেবাটি ছিল অসাধারণ! নার্স ছিলেন পেশাদার, যত্নশীল এবং সময়মত এসেছিলেন। নিশ্চয়ই আবার NurseNear ব্যবহার করব।"'}
+          </p>
+        </div>
+        <div className="flex justify-center mt-4">
+          <span className="mx-1 w-2 h-2 bg-primary rounded-full"></span>
+          <span className="mx-1 w-2 h-2 bg-gray-300 rounded-full"></span>
+          <span className="mx-1 w-2 h-2 bg-gray-300 rounded-full"></span>
+        </div>
+      </section>
+
+      {/* New Feature: App Download CTA */}
+      <section className="mb-8 bg-gradient-to-r from-green-50 to-teal-50 rounded-lg shadow-sm p-6">
+        <div className="flex flex-col md:flex-row items-center justify-between">
+          <div className="mb-4 md:mb-0">
+            <h2 className="text-xl font-bold text-green-600 mb-2">
+              {language === 'en' ? 'Download Our Mobile App' : 'আমাদের মোবাইল অ্যাপ ডাউনলোড করুন'}
+            </h2>
+            <p className="text-gray-700 max-w-md">
               {language === 'en'
-                ? 'Search for nurses near your location'
-                : 'আপনার কাছাকাছি অবস্থানে নার্স খুঁজুন'}
+                ? 'Get faster access to nurses with our mobile app. Available for iOS and Android.'
+                : 'আমাদের মোবাইল অ্যাপের মাধ্যমে নার্সদের সাথে দ্রুত যোগাযোগ করুন। iOS এবং Android-এ উপলব্ধ।'}
             </p>
           </div>
-          <div className="bg-blue-50 p-4 rounded-lg text-center">
-            <div className="bg-blue-100 h-16 w-16 flex items-center justify-center rounded-full mx-auto mb-3">
-              <Clock className="text-primary" size={24} />
-            </div>
-            <h3 className="font-semibold mb-2">
-              {language === 'en' ? 'Book Appointment' : 'অ্যাপয়েন্টমেন্ট বুক করুন'}
-            </h3>
-            <p className="text-sm text-gray-600">
-              {language === 'en'
-                ? 'Schedule a time that works for you'
-                : 'আপনার সুবিধাজনক সময়ে অ্যাপয়েন্টমেন্ট নিন'}
-            </p>
-          </div>
-          <div className="bg-blue-50 p-4 rounded-lg text-center">
-            <div className="bg-blue-100 h-16 w-16 flex items-center justify-center rounded-full mx-auto mb-3">
-              <HeartIcon className="text-primary" size={24} />
-            </div>
-            <h3 className="font-semibold mb-2">
-              {language === 'en' ? 'Get Care' : 'সেবা নিন'}
-            </h3>
-            <p className="text-sm text-gray-600">
-              {language === 'en'
-                ? 'Receive professional nursing care at home'
-                : 'বাড়িতে পেশাদার নার্সিং সেবা পান'}
-            </p>
+          <div className="flex space-x-4">
+            <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white">
+              <span className="mr-2">🍎</span> 
+              {language === 'en' ? 'App Store' : 'অ্যাপ স্টোর'}
+            </Button>
+            <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white">
+              <span className="mr-2">🤖</span>
+              {language === 'en' ? 'Google Play' : 'গুগল প্লে'}
+            </Button>
           </div>
         </div>
       </section>

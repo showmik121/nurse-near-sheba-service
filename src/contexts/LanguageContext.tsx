@@ -114,6 +114,41 @@ const translations: Translations = {
   registerButton: {
     en: 'Register',
     bn: 'রেজিস্টার করুন'
+  },
+  // New translations for emergency section
+  emergencyCare: {
+    en: 'Emergency Care',
+    bn: 'জরুরী সেবা'
+  },
+  emergencyDescription: {
+    en: 'Need immediate assistance? Connect with available nurses right now.',
+    bn: 'অবিলম্বে সাহায্য প্রয়োজন? এখনই উপলব্ধ নার্সদের সাথে যোগাযোগ করুন।'
+  },
+  getEmergencyCare: {
+    en: 'Get Emergency Care',
+    bn: 'জরুরী সেবা নিন'
+  },
+  // New translations for testimonials
+  testimonials: {
+    en: 'What Our Clients Say',
+    bn: 'আমাদের ক্লায়েন্টরা যা বলে'
+  },
+  // New translations for app download
+  downloadApp: {
+    en: 'Download Our Mobile App',
+    bn: 'আমাদের মোবাইল অ্যাপ ডাউনলোড করুন'
+  },
+  downloadDescription: {
+    en: 'Get faster access to nurses with our mobile app. Available for iOS and Android.',
+    bn: 'আমাদের মোবাইল অ্যাপের মাধ্যমে নার্সদের সাথে দ্রুত যোগাযোগ করুন। iOS এবং Android-এ উপলব্ধ।'
+  },
+  appStore: {
+    en: 'App Store',
+    bn: 'অ্যাপ স্টোর'
+  },
+  googlePlay: {
+    en: 'Google Play',
+    bn: 'গুগল প্লে'
   }
 };
 
