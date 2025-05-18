@@ -26,7 +26,7 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: '#1E88E5',
+					DEFAULT: '#1A73E8',  // Updated blue to match the image
 					foreground: '#FFFFFF'
 				},
 				secondary: {
@@ -34,8 +34,8 @@ export default {
 					foreground: '#333333'
 				},
 				accent: {
-					DEFAULT: '#FFC107',
-					foreground: '#333333'
+					DEFAULT: '#4CAF50', // Green accent from the image
+					foreground: '#FFFFFF'
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
@@ -90,6 +90,9 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
+			},
+			fontFamily: {
+				bangla: ['SolaimanLipi', 'Arial', 'sans-serif'],
 			}
 		}
 	},

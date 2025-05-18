@@ -1,4 +1,6 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -42,11 +44,15 @@
   }
 }
 
+.font-bangla {
+  font-family: 'Noto Sans Bengali', Arial, sans-serif;
+}
+
 .nurse-near-app {
   max-width: 500px;
   margin: 0 auto;
   min-height: 100vh;
-  background-color: #E3F2FD;
+  background-color: #F4F9FD;
 }
 
 .star-rating {
@@ -54,6 +60,6 @@
 }
 
 .service-icon {
-  color: #1E88E5;
+  color: #1A73E8;
   font-size: 2rem;
 }

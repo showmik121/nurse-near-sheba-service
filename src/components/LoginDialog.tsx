@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import { UserIcon } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface LoginDialogProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ interface LoginDialogProps {
 type UserRole = "user" | "nurse" | "admin";
 
 const LoginDialog: React.FC<LoginDialogProps> = ({ isOpen, onClose }) => {
+  const { t, language } = useLanguage();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -41,15 +43,19 @@ const LoginDialog: React.FC<LoginDialogProps> = ({ isOpen, onClose }) => {
       
       // Success notification
       toast({
-        title: "Login Successful",
-        description: `Welcome to NurseNear! You are logged in as a ${selectedRole}.`,
+        title: language === 'en' ? "Login Successful" : "লগইন সফল",
+        description: language === 'en' 
+          ? `Welcome to NurseNear! You are logged in as a ${selectedRole}.`
+          : `নার্সনিয়ারে স্বাগতম! আপনি ${selectedRole === 'user' ? 'ব্যবহারকারী' : selectedRole === 'nurse' ? 'নার্স' : 'অ্যাডমিন'} হিসেবে লগইন করেছেন।`,
       });
       
       onClose();
     } catch (error) {
       toast({
-        title: "Login Failed",
-        description: "Please check your credentials and try again.",
+        title: language === 'en' ? "Login Failed" : "লগইন ব্যর্থ",
+        description: language === 'en' 
+          ? "Please check your credentials and try again."
+          : "আপনার তথ্য যাচাই করে আবার চেষ্টা করুন।",
         variant: "destructive",
       });
     } finally {
@@ -57,30 +63,32 @@ const LoginDialog: React.FC<LoginDialogProps> = ({ isOpen, onClose }) => {
     }
   };
 
+  const fontClass = language === 'bn' ? 'font-bangla' : '';
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className={`sm:max-w-[425px] ${fontClass}`}>
         <DialogHeader>
-          <DialogTitle>Login to NurseNear</DialogTitle>
+          <DialogTitle className="text-lg">{t('loginTitle')}</DialogTitle>
           <DialogDescription>
-            Enter your credentials to access your account
+            {t('loginSubtitle')}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleLogin} className="space-y-4 pt-4">
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t('email')}</Label>
             <Input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="your.email@example.com"
+              placeholder={language === 'en' ? "your.email@example.com" : "আপনার.ইমেইল@উদাহরণ.com"}
               required
               className="w-full"
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t('password')}</Label>
             <Input
               id="password"
               type="password"
@@ -92,7 +100,7 @@ const LoginDialog: React.FC<LoginDialogProps> = ({ isOpen, onClose }) => {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="role">Login as</Label>
+            <Label htmlFor="role">{t('loginAs')}</Label>
             <div className="flex gap-2">
               <Button 
                 type="button"
@@ -100,7 +108,7 @@ const LoginDialog: React.FC<LoginDialogProps> = ({ isOpen, onClose }) => {
                 className="flex-1"
                 onClick={() => setSelectedRole("user")}
               >
-                User
+                {t('user')}
               </Button>
               <Button 
                 type="button"
@@ -108,7 +116,7 @@ const LoginDialog: React.FC<LoginDialogProps> = ({ isOpen, onClose }) => {
                 className="flex-1"
                 onClick={() => setSelectedRole("nurse")}
               >
-                Nurse
+                {t('nurse')}
               </Button>
               <Button 
                 type="button"
@@ -116,7 +124,7 @@ const LoginDialog: React.FC<LoginDialogProps> = ({ isOpen, onClose }) => {
                 className="flex-1"
                 onClick={() => setSelectedRole("admin")}
               >
-                Admin
+                {t('admin')}
               </Button>
             </div>
           </div>
@@ -126,26 +134,26 @@ const LoginDialog: React.FC<LoginDialogProps> = ({ isOpen, onClose }) => {
               className="px-0 text-primary"
               type="button"
             >
-              Forgot password?
+              {t('forgotPassword')}
             </Button>
           </div>
           <DialogFooter>
             <Button 
               type="submit" 
-              className="w-full" 
+              className="w-full bg-accent hover:bg-accent/90" 
               disabled={isLoading}
             >
-              {isLoading ? "Logging in..." : "Login"}
+              {isLoading ? t('loggingIn') : t('loginButton')}
             </Button>
           </DialogFooter>
           <div className="text-center text-sm text-gray-500">
-            Don't have an account?{" "}
+            {t('noAccount')}{" "}
             <Button 
               variant="link" 
               className="px-0 text-primary"
               type="button"
             >
-              Register
+              {t('registerButton')}
             </Button>
           </div>
         </form>
