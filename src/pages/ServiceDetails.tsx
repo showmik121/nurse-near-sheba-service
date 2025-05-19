@@ -1,19 +1,41 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { serviceCategories } from '../data/servicesData';
+import { serviceCategories, ServiceDetail } from '../data/servicesData';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, ShoppingCart } from 'lucide-react';
+import ServiceMenu from '@/components/ServiceMenu';
+import CartDrawer from '@/components/CartDrawer';
 
 const ServiceDetails = () => {
   const { id } = useParams<{ id: string }>();
   const { language } = useLanguage();
   const navigate = useNavigate();
   const fontClass = language === 'bn' ? 'font-bangla' : '';
+  
+  const [cartItems, setCartItems] = useState<ServiceDetail[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Find the selected service
   const service = serviceCategories.find(s => s.id === id);
+
+  const handleAddToCart = (selectedServices: ServiceDetail[]) => {
+    // Filter out any duplicates
+    const updatedCart = [...cartItems];
+    
+    selectedServices.forEach(service => {
+      if (!updatedCart.some(item => item.id === service.id)) {
+        updatedCart.push(service);
+      }
+    });
+    
+    setCartItems(updatedCart);
+  };
+  
+  const handleRemoveFromCart = (itemId: string) => {
+    setCartItems(cartItems.filter(item => item.id !== itemId));
+  };
 
   if (!service) {
     return (
@@ -27,21 +49,37 @@ const ServiceDetails = () => {
   }
 
   return (
-    <div className={`p-4 ${fontClass}`}>
+    <div className={`pb-20 ${fontClass}`}>
       {/* Header */}
       <header className="bg-white p-4 border-b border-gray-100 fixed top-0 left-0 right-0 z-10 shadow-sm">
-        <div className="flex items-center">
-          <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
-            <ChevronLeft />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
+              <ChevronLeft />
+            </Button>
+            <h1 className="text-xl font-semibold ml-2">
+              {language === 'en' ? service.name : service.name_bn || service.name}
+            </h1>
+          </div>
+          
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="relative"
+            onClick={() => setIsCartOpen(true)}
+          >
+            <ShoppingCart />
+            {cartItems.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                {cartItems.length}
+              </span>
+            )}
           </Button>
-          <h1 className="text-xl font-semibold ml-2">
-            {language === 'en' ? service.name : service.name_bn || service.name}
-          </h1>
         </div>
       </header>
 
       {/* Content with spacing for the fixed header */}
-      <div className="pt-16 pb-20">
+      <div className="pt-16 px-4">
         <div className="bg-white rounded-xl p-5 shadow-sm mb-6">
           <div className="flex items-center justify-center mb-4">
             <div className="text-5xl">{service.icon}</div>
@@ -56,26 +94,12 @@ const ServiceDetails = () => {
           </p>
         </div>
 
-        {/* Service Details */}
+        {/* Service Menu */}
         {service.details && service.details.length > 0 ? (
-          <div className="bg-white rounded-xl p-5 shadow-sm">
-            <h3 className="font-semibold text-lg mb-4">
-              {language === 'en' ? 'Available Services' : 'উপলব্ধ পরিষেবাসমূহ'}
-            </h3>
-            <div className="space-y-3">
-              {service.details.map(detail => (
-                <div key={detail.id} className="flex justify-between py-2 border-b border-gray-100">
-                  <span>
-                    {language === 'en' ? detail.name_en : detail.name_bn}
-                  </span>
-                  <span className="font-semibold">৳{detail.price}</span>
-                </div>
-              ))}
-            </div>
-            <Button className="w-full mt-6">
-              {language === 'en' ? 'Book Service' : 'সেবা বুক করুন'}
-            </Button>
-          </div>
+          <ServiceMenu 
+            services={service.details} 
+            onAddToCart={handleAddToCart} 
+          />
         ) : (
           <div className="bg-white rounded-xl p-5 shadow-sm text-center">
             {language === 'en' 
@@ -84,6 +108,14 @@ const ServiceDetails = () => {
           </div>
         )}
       </div>
+      
+      {/* Cart Drawer */}
+      <CartDrawer 
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        cartItems={cartItems}
+        onRemoveItem={handleRemoveFromCart}
+      />
     </div>
   );
 };
