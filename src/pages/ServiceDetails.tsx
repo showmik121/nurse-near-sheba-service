@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { serviceCategories, ServiceDetail } from '../data/servicesData';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, CalendarClock } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import ServiceMenu from '@/components/ServiceMenu';
 import BookingDrawer from '@/components/BookingDrawer';
 
@@ -53,31 +53,13 @@ const ServiceDetails = () => {
     <div className={`pb-20 ${fontClass}`}>
       {/* Header */}
       <header className="bg-white p-4 border-b border-gray-100 fixed top-0 left-0 right-0 z-10 shadow-sm">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
-              <ChevronLeft />
-            </Button>
-            <h1 className="text-xl font-semibold ml-2">
-              {language === 'en' ? service.name : service.name_bn || service.name}
-            </h1>
-          </div>
-          
-          <Button 
-            variant="outline" 
-            size="sm"
-            className="relative flex items-center gap-2"
-            onClick={() => setIsBookingOpen(true)}
-            disabled={bookingItems.length === 0}
-          >
-            <CalendarClock className="h-4 w-4" />
-            <span>{language === 'en' ? 'View Booking' : 'বুকিং দেখুন'}</span>
-            {bookingItems.length > 0 && (
-              <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                {bookingItems.length}
-              </span>
-            )}
+        <div className="flex items-center">
+          <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
+            <ChevronLeft />
           </Button>
+          <h1 className="text-xl font-semibold ml-2">
+            {language === 'en' ? service.name : service.name_bn || service.name}
+          </h1>
         </div>
       </header>
 

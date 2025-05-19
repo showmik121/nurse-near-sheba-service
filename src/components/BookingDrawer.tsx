@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button";
 import { ServiceDetail } from "../data/servicesData";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "@/hooks/use-toast";
-import { CalendarClock, MapPin, PhoneCall, X, Check } from "lucide-react";
+import { CalendarClock, MapPin, PhoneCall, X, Check, Male, Female } from "lucide-react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { cn } from "@/lib/utils";
 
 interface BookingDrawerProps {
   isOpen: boolean;
@@ -24,6 +26,7 @@ type BookingFormValues = {
   address: string;
   date: string;
   time: string;
+  gender: "male" | "female";
   agreeToTerms: boolean;
 };
 
@@ -44,6 +47,7 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
       address: "",
       date: new Date().toISOString().split('T')[0],
       time: "09:00",
+      gender: "male",
       agreeToTerms: false,
     }
   });
@@ -205,6 +209,54 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                       </FormItem>
                     )}
                   />
+
+                  <FormField
+                    control={form.control}
+                    name="gender"
+                    render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <FormLabel>{language === 'en' ? "Preferred Care Provider" : "পছন্দনীয় সেবা প্রদানকারী"}</FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            className="flex gap-4"
+                          >
+                            <div className={cn(
+                              "border-2 rounded-lg p-4 flex flex-col items-center cursor-pointer transition-all duration-200 w-1/2",
+                              field.value === "male" 
+                                ? "border-blue-500 bg-blue-50" 
+                                : "border-gray-200 hover:border-gray-300"
+                            )}
+                            onClick={() => form.setValue('gender', 'male')}
+                            >
+                              <Male className="h-12 w-12 text-blue-600 mb-2" />
+                              <FormLabel className="cursor-pointer font-medium mb-1">
+                                {language === 'en' ? "Male" : "পুরুষ"}
+                              </FormLabel>
+                              <RadioGroupItem value="male" className="sr-only" />
+                            </div>
+                            
+                            <div className={cn(
+                              "border-2 rounded-lg p-4 flex flex-col items-center cursor-pointer transition-all duration-200 w-1/2",
+                              field.value === "female" 
+                                ? "border-pink-500 bg-pink-50" 
+                                : "border-gray-200 hover:border-gray-300"
+                            )}
+                            onClick={() => form.setValue('gender', 'female')}
+                            >
+                              <Female className="h-12 w-12 text-pink-600 mb-2" />
+                              <FormLabel className="cursor-pointer font-medium mb-1">
+                                {language === 'en' ? "Female" : "মহিলা"}
+                              </FormLabel>
+                              <RadioGroupItem value="female" className="sr-only" />
+                            </div>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   
                   <div className="grid grid-cols-2 gap-3">
                     <FormField
@@ -276,7 +328,8 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                 <div className="p-4 bg-gray-50 rounded-lg text-left">
                   <p className="text-sm mb-1"><span className="font-medium">{language === 'en' ? "Booking ID: " : "বুকিং আইডি: "}</span>BK{Math.floor(100000 + Math.random() * 900000)}</p>
                   <p className="text-sm mb-1"><span className="font-medium">{language === 'en' ? "Date: " : "তারিখ: "}</span>{form.getValues().date}</p>
-                  <p className="text-sm"><span className="font-medium">{language === 'en' ? "Time: " : "সময়: "}</span>{form.getValues().time}</p>
+                  <p className="text-sm mb-1"><span className="font-medium">{language === 'en' ? "Time: " : "সময়: "}</span>{form.getValues().time}</p>
+                  <p className="text-sm"><span className="font-medium">{language === 'en' ? "Care Provider: " : "সেবা প্রদানকারী: "}</span>{language === 'en' ? (form.getValues().gender === 'male' ? 'Male' : 'Female') : (form.getValues().gender === 'male' ? 'পুরুষ' : 'মহিলা')}</p>
                 </div>
               </div>
             )}
