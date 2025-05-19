@@ -133,32 +133,77 @@ const translations: Translations = {
     en: 'What Our Clients Say',
     bn: 'আমাদের ক্লায়েন্টরা যা বলে'
   },
-  // New translations for app download
-  downloadApp: {
-    en: 'Download Our Mobile App',
-    bn: 'আমাদের মোবাইল অ্যাপ ডাউনলোড করুন'
+  // New translations for chat
+  chatWithUs: {
+    en: 'Chat with us',
+    bn: 'আমাদের সাথে চ্যাট করুন'
   },
-  downloadDescription: {
-    en: 'Get faster access to nurses with our mobile app. Available for iOS and Android.',
-    bn: 'আমাদের মোবাইল অ্যাপের মাধ্যমে নার্সদের সাথে দ্রুত যোগাযোগ করুন। iOS এবং Android-এ উপলব্ধ।'
+  customerSupport: {
+    en: 'Customer Support',
+    bn: 'গ্রাহক সহায়তা'
   },
-  appStore: {
-    en: 'App Store',
-    bn: 'অ্যাপ স্টোর'
+  typeMessage: {
+    en: 'Type a message...',
+    bn: 'একটি বার্তা টাইপ করুন...'
   },
-  googlePlay: {
-    en: 'Google Play',
-    bn: 'গুগল প্লে'
+  howCanWeHelp: {
+    en: 'How can we help you today?',
+    bn: 'আজ আমরা আপনাকে কিভাবে সাহায্য করতে পারি?'
+  },
+  // Health service translations
+  cannula: {
+    en: 'Cannula Insertion',
+    bn: 'ক্যানোলা দেওয়া'
+  },
+  saline: {
+    en: 'Saline Administration',
+    bn: 'সালাইন দেওয়া'
+  },
+  bpCheck: {
+    en: 'Blood Pressure Check',
+    bn: 'BP চেক'
+  },
+  injection: {
+    en: 'Injection Administration',
+    bn: 'ইনজেকশন দেওয়া'
+  },
+  bathing: {
+    en: 'Body Cleaning/Bathing',
+    bn: 'শারীরিক সাফাই/বাথিং'
+  },
+  bloodSugar: {
+    en: 'Blood Sugar Check',
+    bn: 'ব্লাড সুগার চেক'
+  },
+  serviceDetails: {
+    en: 'Service Details',
+    bn: 'সেবা বিবরণ'
+  },
+  availableServices: {
+    en: 'Available Services',
+    bn: 'উপলব্ধ পরিষেবাসমূহ'
+  },
+  bookService: {
+    en: 'Book Service',
+    bn: 'সেবা বুক করুন'
+  },
+  goBack: {
+    en: 'Go back',
+    bn: 'ফিরে যান'
+  },
+  comingSoon: {
+    en: 'Detailed services coming soon',
+    bn: 'বিস্তারিত সেবাসমূহ শীঘ্রই আসছে'
   }
 };
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 interface LanguageContextType {
   language: Language;
   setLanguage: React.Dispatch<React.SetStateAction<Language>>;
   t: (key: string) => string;
 }
-
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 // The issue was here - don't declare variables/constants outside of the component
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

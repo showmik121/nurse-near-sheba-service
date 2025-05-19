@@ -201,10 +201,6 @@ const Index = () => {
             <span className="mb-1">📅</span>
             {t('bookings')}
           </Button>
-          <Button variant="ghost" className="flex flex-col items-center text-xs text-gray-500">
-            <span className="mb-1">💬</span>
-            {t('chat')}
-          </Button>
           <Button 
             variant="ghost" 
             className="flex flex-col items-center text-xs text-gray-500"

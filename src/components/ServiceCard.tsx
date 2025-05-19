@@ -2,6 +2,7 @@
 import React from "react";
 import { ServiceCategory } from "../data/servicesData";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useNavigate } from "react-router-dom";
 
 interface ServiceCardProps {
   service: ServiceCategory;
@@ -11,9 +12,17 @@ interface ServiceCardProps {
 const ServiceCard: React.FC<ServiceCardProps> = ({ service, hasPromo = false }) => {
   const { language } = useLanguage();
   const fontClass = language === 'bn' ? 'font-bangla' : '';
+  const navigate = useNavigate();
+  
+  const handleServiceClick = () => {
+    navigate(`/service/${service.id}`);
+  };
   
   return (
-    <div className={`relative service-card bg-white rounded-xl shadow-sm p-4 flex flex-col items-center justify-center ${fontClass}`}>
+    <div 
+      className={`relative service-card bg-white rounded-xl shadow-sm p-4 flex flex-col items-center justify-center ${fontClass} cursor-pointer`}
+      onClick={handleServiceClick}
+    >
       {hasPromo && (
         <span className="absolute -top-2 -right-2 bg-primary text-white text-xs py-1 px-2 rounded-full">
           {language === 'en' ? 'Promo' : 'প্রমো'}
