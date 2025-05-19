@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ServiceDetail } from "../data/servicesData";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "@/hooks/use-toast";
-import { CalendarClock, MapPin, PhoneCall, X } from "lucide-react";
+import { CalendarClock, MapPin, PhoneCall, X, Check } from "lucide-react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";

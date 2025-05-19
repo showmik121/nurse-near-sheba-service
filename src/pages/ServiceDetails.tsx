@@ -64,13 +64,14 @@ const ServiceDetails = () => {
           </div>
           
           <Button 
-            variant="ghost" 
-            size="icon" 
-            className="relative"
+            variant="outline" 
+            size="sm"
+            className="relative flex items-center gap-2"
             onClick={() => setIsBookingOpen(true)}
             disabled={bookingItems.length === 0}
           >
-            <CalendarClock />
+            <CalendarClock className="h-4 w-4" />
+            <span>{language === 'en' ? 'View Booking' : 'বুকিং দেখুন'}</span>
             {bookingItems.length > 0 && (
               <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 {bookingItems.length}
