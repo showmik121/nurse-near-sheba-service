@@ -4,9 +4,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { serviceCategories, ServiceDetail } from '../data/servicesData';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ShoppingCart } from 'lucide-react';
+import { ChevronLeft, CalendarClock } from 'lucide-react';
 import ServiceMenu from '@/components/ServiceMenu';
-import CartDrawer from '@/components/CartDrawer';
+import BookingDrawer from '@/components/BookingDrawer';
 
 const ServiceDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,27 +14,28 @@ const ServiceDetails = () => {
   const navigate = useNavigate();
   const fontClass = language === 'bn' ? 'font-bangla' : '';
   
-  const [cartItems, setCartItems] = useState<ServiceDetail[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [bookingItems, setBookingItems] = useState<ServiceDetail[]>([]);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   // Find the selected service
   const service = serviceCategories.find(s => s.id === id);
 
-  const handleAddToCart = (selectedServices: ServiceDetail[]) => {
+  const handleAddToBooking = (selectedServices: ServiceDetail[]) => {
     // Filter out any duplicates
-    const updatedCart = [...cartItems];
+    const updatedBooking = [...bookingItems];
     
     selectedServices.forEach(service => {
-      if (!updatedCart.some(item => item.id === service.id)) {
-        updatedCart.push(service);
+      if (!updatedBooking.some(item => item.id === service.id)) {
+        updatedBooking.push(service);
       }
     });
     
-    setCartItems(updatedCart);
+    setBookingItems(updatedBooking);
+    setIsBookingOpen(true);
   };
   
-  const handleRemoveFromCart = (itemId: string) => {
-    setCartItems(cartItems.filter(item => item.id !== itemId));
+  const handleRemoveFromBooking = (itemId: string) => {
+    setBookingItems(bookingItems.filter(item => item.id !== itemId));
   };
 
   if (!service) {
@@ -66,12 +67,13 @@ const ServiceDetails = () => {
             variant="ghost" 
             size="icon" 
             className="relative"
-            onClick={() => setIsCartOpen(true)}
+            onClick={() => setIsBookingOpen(true)}
+            disabled={bookingItems.length === 0}
           >
-            <ShoppingCart />
-            {cartItems.length > 0 && (
+            <CalendarClock />
+            {bookingItems.length > 0 && (
               <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                {cartItems.length}
+                {bookingItems.length}
               </span>
             )}
           </Button>
@@ -80,7 +82,7 @@ const ServiceDetails = () => {
 
       {/* Content with spacing for the fixed header */}
       <div className="pt-16 px-4">
-        <div className="bg-white rounded-xl p-5 shadow-sm mb-6">
+        <div className="bg-gradient-to-r from-secondary via-secondary/70 to-secondary/30 rounded-xl p-5 shadow-sm mb-6">
           <div className="flex items-center justify-center mb-4">
             <div className="text-5xl">{service.icon}</div>
           </div>
@@ -98,7 +100,7 @@ const ServiceDetails = () => {
         {service.details && service.details.length > 0 ? (
           <ServiceMenu 
             services={service.details} 
-            onAddToCart={handleAddToCart} 
+            onAddToBooking={handleAddToBooking} 
           />
         ) : (
           <div className="bg-white rounded-xl p-5 shadow-sm text-center">
@@ -109,12 +111,12 @@ const ServiceDetails = () => {
         )}
       </div>
       
-      {/* Cart Drawer */}
-      <CartDrawer 
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cartItems={cartItems}
-        onRemoveItem={handleRemoveFromCart}
+      {/* Booking Drawer */}
+      <BookingDrawer 
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+        bookingItems={bookingItems}
+        onRemoveItem={handleRemoveFromBooking}
       />
     </div>
   );
