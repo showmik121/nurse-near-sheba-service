@@ -11,7 +11,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useBooking } from "@/contexts/BookingContext";
 import { useTheme } from "@/contexts/ThemeContext";
-import { UserIcon, Filter, ChevronRight, Moon, Sun } from "lucide-react";
+import { UserIcon, Filter, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import LocationService from "@/services/LocationService";
 import { useToast } from "@/hooks/use-toast";
@@ -19,7 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 const Index = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const { t, language } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const fontClass = language === 'bn' ? 'font-bangla' : '';
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -76,18 +76,6 @@ const Index = () => {
             </h1>
           </div>
           <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              size="icon" 
-              onClick={toggleTheme}
-              className={`rounded-full ${isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'}`}
-            >
-              {isDarkMode ? (
-                <Sun size={18} className="text-yellow-300" />
-              ) : (
-                <Moon size={18} className="text-gray-700" />
-              )}
-            </Button>
             <LanguageSwitcher />
             <Button 
               variant="ghost"

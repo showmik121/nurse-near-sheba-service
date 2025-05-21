@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { serviceCategories, ServiceDetail } from '../data/servicesData';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import ServiceMenu from '@/components/ServiceMenu';
@@ -11,8 +12,10 @@ import BookingDrawer from '@/components/BookingDrawer';
 const ServiceDetails = () => {
   const { id } = useParams<{ id: string }>();
   const { language } = useLanguage();
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const fontClass = language === 'bn' ? 'font-bangla' : '';
+  const isDarkMode = theme === 'dark';
   
   const [bookingItems, setBookingItems] = useState<ServiceDetail[]>([]);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -40,7 +43,7 @@ const ServiceDetails = () => {
 
   if (!service) {
     return (
-      <div className="p-4">
+      <div className={`p-4 ${isDarkMode ? 'bg-gray-900 text-white' : ''}`}>
         <p className="text-center py-10">Service not found</p>
         <Button onClick={() => navigate('/')}>
           {language === 'en' ? 'Go back to home' : 'হোম পেজে ফিরে যান'}
@@ -49,12 +52,24 @@ const ServiceDetails = () => {
     );
   }
 
+  // Enhanced gradient background based on theme
+  const gradientBg = isDarkMode
+    ? 'bg-gradient-to-r from-gray-800 via-gray-800/70 to-gray-800/30' 
+    : 'bg-gradient-to-r from-secondary via-secondary/70 to-secondary/30';
+
+  const headerBg = isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100';
+
   return (
-    <div className={`pb-20 ${fontClass}`}>
+    <div className={`pb-20 ${fontClass} ${isDarkMode ? 'bg-gray-900 text-white' : ''}`}>
       {/* Header */}
-      <header className="bg-white p-4 border-b border-gray-100 fixed top-0 left-0 right-0 z-10 shadow-sm">
+      <header className={`p-4 border-b fixed top-0 left-0 right-0 z-10 shadow-sm ${headerBg}`}>
         <div className="flex items-center">
-          <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => navigate('/')}
+            className={isDarkMode ? 'text-gray-300 hover:text-white' : ''}
+          >
             <ChevronLeft />
           </Button>
           <h1 className="text-xl font-semibold ml-2">
@@ -65,14 +80,14 @@ const ServiceDetails = () => {
 
       {/* Content with spacing for the fixed header */}
       <div className="pt-16 px-4">
-        <div className="bg-gradient-to-r from-secondary via-secondary/70 to-secondary/30 rounded-xl p-5 shadow-sm mb-6">
-          <div className="flex items-center justify-center mb-4">
+        <div className={`${gradientBg} rounded-xl p-5 shadow-sm mb-6`}>
+          <div className={`flex items-center justify-center mb-4 w-20 h-20 mx-auto rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-primary/10'}`}>
             <div className="text-5xl">{service.icon}</div>
           </div>
           <h2 className="text-xl font-bold text-center mb-2">
             {language === 'en' ? service.name : service.name_bn || service.name}
           </h2>
-          <p className="text-gray-600 text-center mb-4">
+          <p className={`text-center mb-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             {language === 'en' 
               ? 'Professional care services at your doorstep' 
               : 'আপনার দরজায় পেশাদার পরিচর্যা পরিষেবা'}
@@ -86,7 +101,7 @@ const ServiceDetails = () => {
             onAddToBooking={handleAddToBooking} 
           />
         ) : (
-          <div className="bg-white rounded-xl p-5 shadow-sm text-center">
+          <div className={`rounded-xl p-5 shadow-sm text-center ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
             {language === 'en' 
               ? 'Detailed services coming soon' 
               : 'বিস্তারিত সেবাসমূহ শীঘ্রই আসছে'}

@@ -15,6 +15,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const [avatar, setAvatar] = useState<string | null>(null);
   const fontClass = language === 'bn' ? 'font-bangla' : '';
+  const isDarkMode = theme === 'dark';
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -63,14 +64,14 @@ const Profile = () => {
   ];
 
   return (
-    <div className={`nurse-near-app p-4 ${fontClass}`}>
+    <div className={`nurse-near-app p-4 ${fontClass} ${isDarkMode ? 'dark bg-gray-900 text-white' : ''}`}>
       <header className="mb-6">
         <h1 className="text-2xl font-bold text-center">
           {language === 'en' ? 'My Profile' : 'আমার প্রোফাইল'}
         </h1>
       </header>
 
-      <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+      <div className={`rounded-xl shadow-sm p-6 mb-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <div className="flex flex-col items-center">
           <div className="relative mb-4">
             <Avatar className="w-24 h-24 border-4 border-primary/20">
@@ -99,7 +100,7 @@ const Profile = () => {
 
         {/* Dark Mode Toggle */}
         <div className="mt-6 mb-6">
-          <Card className="p-4 flex items-center justify-between">
+          <Card className={`p-4 flex items-center justify-between ${isDarkMode ? 'bg-gray-700 border-gray-600' : ''}`}>
             <div className="flex items-center gap-3">
               {theme === 'dark' ? (
                 <Moon className="h-5 w-5 text-primary" />
@@ -124,7 +125,7 @@ const Profile = () => {
           {profileOptions.map((option) => (
             <Card 
               key={option.id}
-              className="p-4 flex items-center justify-between hover:bg-secondary cursor-pointer"
+              className={`p-4 flex items-center justify-between hover:bg-secondary cursor-pointer ${isDarkMode ? 'bg-gray-700 border-gray-600 hover:bg-gray-600' : ''}`}
               onClick={() => navigate(option.path)}
             >
               <div className="flex items-center gap-3">
@@ -139,20 +140,20 @@ const Profile = () => {
         <div className="mt-6">
           <Button 
             variant="outline" 
-            className="w-full border-red-300 text-red-500 hover:bg-red-50"
+            className={`w-full ${isDarkMode ? 'border-red-800 text-red-400 hover:bg-red-900/30' : 'border-red-300 text-red-500 hover:bg-red-50'}`}
           >
             {language === 'en' ? 'Logout' : 'লগ আউট'}
           </Button>
         </div>
       </div>
 
-      <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-2 shadow-lg">
+      <footer className={`fixed bottom-0 left-0 right-0 border-t p-2 shadow-lg ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
         <div className="max-w-[500px] mx-auto flex justify-around">
           <Button variant="ghost" className="flex flex-col items-center text-xs text-gray-500" onClick={() => navigate('/')}>
             <span className="mb-1">🏠</span>
             {language === 'en' ? 'Home' : 'হোম'}
           </Button>
-          <Button variant="ghost" className="flex flex-col items-center text-xs text-gray-500">
+          <Button variant="ghost" className="flex flex-col items-center text-xs text-gray-500" onClick={() => navigate('/')}>
             <span className="mb-1">📅</span>
             {language === 'en' ? 'Bookings' : 'বুকিংস'}
           </Button>

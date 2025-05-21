@@ -49,6 +49,7 @@ const BookingHistory = () => {
           <Button 
             variant="ghost" 
             className={`flex flex-col items-center text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}
+            onClick={() => navigate('/')}
           >
             <span className="mb-1">📅</span>
             {language === 'en' ? 'Bookings' : 'বুকিংস'}
@@ -56,7 +57,6 @@ const BookingHistory = () => {
           <Button 
             variant="ghost" 
             className={`flex flex-col items-center text-xs ${isDarkMode ? 'text-primary' : 'text-primary'}`}
-            onClick={() => navigate('/profile')}
           >
             <span className="mb-1">👤</span>
             {language === 'en' ? 'Profile' : 'প্রোফাইল'}
