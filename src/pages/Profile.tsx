@@ -3,12 +3,15 @@ import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { ChevronRight, User, Settings, Info, Shield, FileText } from "lucide-react";
+import { useTheme } from "@/contexts/ThemeContext";
+import { ChevronRight, User, Settings, Info, Shield, FileText, History, Moon, Sun } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { t, language } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [avatar, setAvatar] = useState<string | null>(null);
   const fontClass = language === 'bn' ? 'font-bangla' : '';
@@ -27,6 +30,12 @@ const Profile = () => {
   };
   
   const profileOptions = [
+    { 
+      id: "history", 
+      icon: <History className="h-5 w-5 text-primary" />, 
+      title: { en: "Booking History", bn: "বুকিং ইতিহাস" },
+      path: "/booking-history"
+    },
     { 
       id: "settings", 
       icon: <Settings className="h-5 w-5 text-primary" />, 
@@ -88,7 +97,30 @@ const Profile = () => {
           </p>
         </div>
 
-        <div className="mt-8 space-y-1">
+        {/* Dark Mode Toggle */}
+        <div className="mt-6 mb-6">
+          <Card className="p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              {theme === 'dark' ? (
+                <Moon className="h-5 w-5 text-primary" />
+              ) : (
+                <Sun className="h-5 w-5 text-primary" />
+              )}
+              <span>
+                {language === 'en' 
+                  ? (theme === 'dark' ? 'Dark Mode' : 'Light Mode') 
+                  : (theme === 'dark' ? 'ডার্ক মোড' : 'লাইট মোড')
+                }
+              </span>
+            </div>
+            <Switch 
+              checked={theme === 'dark'} 
+              onCheckedChange={toggleTheme}
+            />
+          </Card>
+        </div>
+
+        <div className="space-y-1">
           {profileOptions.map((option) => (
             <Card 
               key={option.id}

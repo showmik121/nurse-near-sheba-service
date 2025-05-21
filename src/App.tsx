@@ -5,6 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { BookingProvider } from "@/contexts/BookingContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
@@ -13,6 +15,8 @@ import About from "./pages/About";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import ServiceDetails from "./pages/ServiceDetails";
+import BookingHistory from "./pages/BookingHistory";
+import Payment from "./pages/Payment";
 import ChatButton from "./components/ChatButton";
 
 const queryClient = new QueryClient();
@@ -20,23 +24,29 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <LanguageProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/service/:id" element={<ServiceDetails />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <ChatButton />
-        </BrowserRouter>
-      </TooltipProvider>
+      <ThemeProvider>
+        <BookingProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/service/:id" element={<ServiceDetails />} />
+                <Route path="/booking-history" element={<BookingHistory />} />
+                <Route path="/payment" element={<Payment />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <ChatButton />
+            </BrowserRouter>
+          </TooltipProvider>
+        </BookingProvider>
+      </ThemeProvider>
     </LanguageProvider>
   </QueryClientProvider>
 );
