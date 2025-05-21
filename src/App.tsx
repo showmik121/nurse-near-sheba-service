@@ -18,8 +18,21 @@ import ServiceDetails from "./pages/ServiceDetails";
 import BookingHistory from "./pages/BookingHistory";
 import Payment from "./pages/Payment";
 import ChatButton from "./components/ChatButton";
+import { useLocation } from "react-router-dom";
 
 const queryClient = new QueryClient();
+
+// Component to conditionally render the ChatButton
+const ChatButtonWrapper = () => {
+  const location = useLocation();
+  const hideChatOnPaths = ['/profile', '/booking-history', '/settings'];
+  
+  if (hideChatOnPaths.includes(location.pathname)) {
+    return null;
+  }
+  
+  return <ChatButton />;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -42,7 +55,7 @@ const App = () => (
                 <Route path="/payment" element={<Payment />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
-              <ChatButton />
+              <ChatButtonWrapper />
             </BrowserRouter>
           </TooltipProvider>
         </BookingProvider>
