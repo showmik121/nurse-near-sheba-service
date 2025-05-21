@@ -1,11 +1,10 @@
-
 import React, { useState } from "react";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerFooter } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { ServiceDetail } from "../data/servicesData";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "@/hooks/use-toast";
-import { CalendarClock, MapPin, PhoneCall, X, Check, Male, Female } from "lucide-react";
+import { CalendarClock, MapPin, PhoneCall, X, Check, UserRound, Users } from "lucide-react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
@@ -230,7 +229,7 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                             )}
                             onClick={() => form.setValue('gender', 'male')}
                             >
-                              <Male className="h-12 w-12 text-blue-600 mb-2" />
+                              <UserRound className="h-12 w-12 text-blue-600 mb-2" />
                               <FormLabel className="cursor-pointer font-medium mb-1">
                                 {language === 'en' ? "Male" : "পুরুষ"}
                               </FormLabel>
@@ -245,7 +244,7 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                             )}
                             onClick={() => form.setValue('gender', 'female')}
                             >
-                              <Female className="h-12 w-12 text-pink-600 mb-2" />
+                              <Users className="h-12 w-12 text-pink-600 mb-2" />
                               <FormLabel className="cursor-pointer font-medium mb-1">
                                 {language === 'en' ? "Female" : "মহিলা"}
                               </FormLabel>
