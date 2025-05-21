@@ -2,6 +2,7 @@
 import React from "react";
 import { ServiceCategory } from "../data/servicesData";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { useNavigate } from "react-router-dom";
 
 interface ServiceCardProps {
@@ -11,8 +12,10 @@ interface ServiceCardProps {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ service, hasPromo = false }) => {
   const { language } = useLanguage();
+  const { theme } = useTheme();
   const fontClass = language === 'bn' ? 'font-bangla' : '';
   const navigate = useNavigate();
+  const isDarkMode = theme === 'dark';
   
   const handleServiceClick = () => {
     navigate(`/service/${service.id}`);
@@ -20,7 +23,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, hasPromo = false }) 
   
   return (
     <div 
-      className={`relative service-card bg-white rounded-xl shadow-sm p-4 flex flex-col items-center justify-center ${fontClass} cursor-pointer`}
+      className={`relative service-card flex flex-col items-center justify-center ${fontClass} cursor-pointer rounded-xl shadow-sm p-4 
+        ${isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-50'}`}
       onClick={handleServiceClick}
     >
       {hasPromo && (
@@ -29,7 +33,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, hasPromo = false }) 
         </span>
       )}
       <div className="text-4xl mb-3">{service.icon}</div>
-      <p className="text-sm font-medium text-center text-gray-800">{service.name}</p>
+      <p className={`text-sm font-medium text-center ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+        {language === 'en' ? service.name : service.name_bn || service.name}
+      </p>
     </div>
   );
 };

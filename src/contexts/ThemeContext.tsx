@@ -33,7 +33,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     // Save to localStorage
     localStorage.setItem('theme', theme);
     
-    // Update document class
+    // Update document class for dark mode
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
       document.documentElement.classList.remove('light');
@@ -42,9 +42,20 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       document.documentElement.classList.remove('dark');
     }
     
-    // This forces a refresh of styles
-    document.body.style.backgroundColor = '';
+    // Apply theme to root styles
+    const root = document.documentElement;
     
+    if (theme === 'dark') {
+      root.style.setProperty('--background', '#121212');
+      root.style.setProperty('--foreground', '#ffffff');
+      root.style.setProperty('--card', '#1e1e1e');
+      root.style.setProperty('--card-foreground', '#ffffff');
+    } else {
+      root.style.setProperty('--background', '#FDFAFC');
+      root.style.setProperty('--foreground', '#000000');
+      root.style.setProperty('--card', '#ffffff');
+      root.style.setProperty('--card-foreground', '#000000');
+    }
   }, [theme]);
 
   const toggleTheme = () => {

@@ -17,6 +17,7 @@ import Privacy from "./pages/Privacy";
 import ServiceDetails from "./pages/ServiceDetails";
 import BookingHistory from "./pages/BookingHistory";
 import Payment from "./pages/Payment";
+import EmergencyCare from "./pages/EmergencyCare";
 import ChatButton from "./components/ChatButton";
 import { useLocation } from "react-router-dom";
 
@@ -25,7 +26,7 @@ const queryClient = new QueryClient();
 // Component to conditionally render the ChatButton
 const ChatButtonWrapper = () => {
   const location = useLocation();
-  const hideChatOnPaths = ['/profile', '/booking-history', '/settings'];
+  const hideChatOnPaths = ['/profile', '/booking-history', '/settings', '/emergency-care'];
   
   if (hideChatOnPaths.includes(location.pathname)) {
     return null;
@@ -53,6 +54,7 @@ const App = () => (
                 <Route path="/service/:id" element={<ServiceDetails />} />
                 <Route path="/booking-history" element={<BookingHistory />} />
                 <Route path="/payment" element={<Payment />} />
+                <Route path="/emergency-care" element={<EmergencyCare />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <ChatButtonWrapper />
