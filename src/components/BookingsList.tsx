@@ -15,6 +15,10 @@ export type Booking = {
   price: number;
   status: 'pending' | 'processed' | 'cancelled';
   careProvider: 'male' | 'female';
+  address?: string;
+  patientName?: string;
+  phone?: string;
+  additionalNotes?: string;
 }
 
 interface BookingsListProps {
@@ -90,6 +94,22 @@ const BookingsList: React.FC<BookingsListProps> = ({
             </div>
             
             <div className="text-sm space-y-2 text-gray-600 mb-4">
+              {/* Patient information if available */}
+              {booking.patientName && (
+                <p className="flex justify-between border-b border-gray-100 pb-1">
+                  <span className="font-medium">{language === 'en' ? "Patient: " : "রোগীর নাম: "}</span>
+                  <span>{booking.patientName}</span>
+                </p>
+              )}
+              
+              {/* Phone if available */}
+              {booking.phone && (
+                <p className="flex justify-between border-b border-gray-100 pb-1">
+                  <span className="font-medium">{language === 'en' ? "Phone: " : "ফোন: "}</span>
+                  <span>{booking.phone}</span>
+                </p>
+              )}
+              
               <p className="flex justify-between border-b border-gray-100 pb-1">
                 <span className="font-medium">{language === 'en' ? "Date: " : "তারিখ: "}</span>
                 <span>{booking.date}</span>
@@ -107,6 +127,15 @@ const BookingsList: React.FC<BookingsListProps> = ({
                   }
                 </span>
               </p>
+              
+              {/* Address if available */}
+              {booking.address && (
+                <p className="flex flex-col border-b border-gray-100 pb-1">
+                  <span className="font-medium">{language === 'en' ? "Address: " : "ঠিকানা: "}</span>
+                  <span className="mt-1">{booking.address}</span>
+                </p>
+              )}
+              
               <div className="pt-1">
                 <div className="font-medium mb-1">{language === 'en' ? "Services: " : "সেবাসমূহ: "}</div>
                 <ul className="list-disc pl-5">
@@ -115,6 +144,14 @@ const BookingsList: React.FC<BookingsListProps> = ({
                   ))}
                 </ul>
               </div>
+              
+              {/* Additional notes if available */}
+              {booking.additionalNotes && (
+                <div className="pt-2 border-t border-gray-100">
+                  <div className="font-medium mb-1">{language === 'en' ? "Notes: " : "নোট: "}</div>
+                  <p className="text-gray-600">{booking.additionalNotes}</p>
+                </div>
+              )}
             </div>
             
             <div className="flex justify-between items-center border-t border-gray-100 pt-2">

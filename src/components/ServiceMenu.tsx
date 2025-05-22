@@ -99,7 +99,7 @@ const ServiceMenu: React.FC<ServiceMenuProps> = ({ services, onAddToBooking }) =
         </div>
         
         <div className="p-4 bg-white">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-2">
             {services.map((service) => {
               const iconData = serviceIcons[service.id] || { icon: "✨", bgColor: "bg-gray-50" };
               const isSelected = selectedServices.some(s => s.id === service.id);
@@ -110,23 +110,23 @@ const ServiceMenu: React.FC<ServiceMenuProps> = ({ services, onAddToBooking }) =
                   onClick={() => toggleServiceSelection(service)}
                   className={`p-0 cursor-pointer transition-all duration-200 overflow-hidden
                     ${isSelected
-                      ? "ring-2 ring-primary shadow-md transform scale-[1.01]"
+                      ? "ring-2 ring-primary shadow-md"
                       : "ring-1 ring-gray-100 hover:ring-gray-300"
                     } bg-white`}
                 >
-                  <div className={`aspect-square ${iconData.bgColor} flex items-center justify-center`}>
-                    <div className="text-3xl">{iconData.icon}</div>
+                  <div className={`${iconData.bgColor} flex flex-col items-center justify-center p-3 relative`}>
+                    <div className="text-2xl">{iconData.icon}</div>
                     {isSelected && (
-                      <div className="absolute top-2 right-2 w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                      <div className="absolute top-1 right-1 w-4 h-4 bg-primary rounded-full flex items-center justify-center">
                         <Check className="w-3 h-3 text-white" />
                       </div>
                     )}
                   </div>
                   <div className="p-2 text-center">
-                    <p className="text-sm font-medium text-gray-800 line-clamp-2">
+                    <p className="text-xs font-medium text-gray-800 line-clamp-2">
                       {language === 'en' ? service.name_en : service.name_bn}
                     </p>
-                    <p className="text-primary font-semibold mt-1">৳{service.price}</p>
+                    <p className="text-primary font-semibold text-xs mt-1">৳{service.price}</p>
                   </div>
                 </Card>
               );
