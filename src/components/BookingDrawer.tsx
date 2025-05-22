@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerFooter } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { ServiceDetail } from "../data/servicesData";
@@ -38,6 +38,14 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
   const { language } = useLanguage();
   const fontClass = language === 'bn' ? 'font-bangla' : '';
   const [step, setStep] = useState<'summary' | 'details' | 'confirmation'>('summary');
+  
+  // Force light mode in drawer
+  useEffect(() => {
+    if (isOpen) {
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isOpen]);
   
   const form = useForm<BookingFormValues>({
     defaultValues: {
@@ -92,7 +100,6 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
   };
 
   const handleUseLocation = () => {
-    // In a real app, this would use the Geolocation API
     toast({
       title: language === 'en' ? "Using Current Location" : "বর্তমান অবস্থান ব্যবহার করা হচ্ছে",
       description: language === 'en' ? "Address field will be updated" : "ঠিকানা হালনাগাদ করা হবে",
@@ -102,10 +109,10 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
 
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
-      <DrawerContent className="max-h-[90vh]">
+      <DrawerContent className="max-h-[90vh] bg-white text-gray-900">
         <div className={fontClass}>
           <DrawerHeader>
-            <DrawerTitle className="flex items-center gap-2">
+            <DrawerTitle className="flex items-center gap-2 text-gray-900">
               <CalendarClock className="h-5 w-5" />
               {step === 'confirmation' 
                 ? language === 'en' ? "Booking Confirmed!" : "বুকিং নিশ্চিত হয়েছে!"
@@ -113,7 +120,7 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
             </DrawerTitle>
           </DrawerHeader>
           
-          <div className="p-4 overflow-y-auto max-h-[65vh]">
+          <div className="p-4 overflow-y-auto max-h-[65vh] bg-white">
             {bookingItems.length === 0 ? (
               <div className="text-center py-8 text-gray-500">
                 {language === 'en' ? "No services selected" : "কোন সেবা নির্বাচিত হয়নি"}
@@ -127,7 +134,7 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                 {bookingItems.map((item) => (
                   <div key={item.id} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                     <div>
-                      <p className="font-medium">
+                      <p className="font-medium text-gray-900">
                         {language === 'en' ? item.name_en : item.name_bn}
                       </p>
                       <p className="text-sm text-gray-500">৳{item.price}</p>
@@ -144,7 +151,7 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                 ))}
                 
                 <div className="mt-6 p-3 border border-dashed border-primary rounded-lg bg-primary/5">
-                  <h3 className="font-medium text-center mb-2">
+                  <h3 className="font-medium text-center mb-2 text-gray-900">
                     {language === 'en' ? "Terms & Conditions" : "শর্তাবলী"}
                   </h3>
                   <ul className="text-xs text-gray-600 space-y-1">
@@ -162,9 +169,9 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{language === 'en' ? "Full Name" : "পূর্ণ নাম"}</FormLabel>
+                        <FormLabel className="text-gray-900">{language === 'en' ? "Full Name" : "পূর্ণ নাম"}</FormLabel>
                         <FormControl>
-                          <Input placeholder={language === 'en' ? "Enter your name" : "আপনার নাম লিখুন"} {...field} />
+                          <Input placeholder={language === 'en' ? "Enter your name" : "আপনার নাম লিখুন"} {...field} className="bg-white border-gray-300 text-gray-900" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -176,11 +183,11 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{language === 'en' ? "Phone Number" : "ফোন নম্বর"}</FormLabel>
+                        <FormLabel className="text-gray-900">{language === 'en' ? "Phone Number" : "ফোন নম্বর"}</FormLabel>
                         <FormControl>
                           <div className="flex">
-                            <Input placeholder={language === 'en' ? "Your phone number" : "আপনার ফোন নম্বর"} {...field} />
-                            <Button type="button" variant="outline" size="icon" className="ml-2">
+                            <Input placeholder={language === 'en' ? "Your phone number" : "আপনার ফোন নম্বর"} {...field} className="bg-white border-gray-300 text-gray-900" />
+                            <Button type="button" variant="outline" size="icon" className="ml-2 bg-white">
                               <PhoneCall className="h-4 w-4" />
                             </Button>
                           </div>
@@ -195,11 +202,11 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                     name="address"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{language === 'en' ? "Address" : "ঠিকানা"}</FormLabel>
+                        <FormLabel className="text-gray-900">{language === 'en' ? "Address" : "ঠিকানা"}</FormLabel>
                         <FormControl>
                           <div className="flex">
-                            <Input placeholder={language === 'en' ? "Service delivery address" : "সেবা প্রদানের ঠিকানা"} {...field} />
-                            <Button type="button" variant="outline" size="icon" className="ml-2" onClick={handleUseLocation}>
+                            <Input placeholder={language === 'en' ? "Service delivery address" : "সেবা প্রদানের ঠিকানা"} {...field} className="bg-white border-gray-300 text-gray-900" />
+                            <Button type="button" variant="outline" size="icon" className="ml-2 bg-white" onClick={handleUseLocation}>
                               <MapPin className="h-4 w-4" />
                             </Button>
                           </div>
@@ -214,7 +221,7 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                     name="gender"
                     render={({ field }) => (
                       <FormItem className="space-y-3">
-                        <FormLabel>{language === 'en' ? "Preferred Care Provider" : "পছন্দনীয় সেবা প্রদানকারী"}</FormLabel>
+                        <FormLabel className="text-gray-900">{language === 'en' ? "Preferred Care Provider" : "পছন্দনীয় সেবা প্রদানকারী"}</FormLabel>
                         <FormControl>
                           <RadioGroup
                             onValueChange={field.onChange}
@@ -230,7 +237,7 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                             onClick={() => form.setValue('gender', 'male')}
                             >
                               <UserRound className="h-12 w-12 text-blue-600 mb-2" />
-                              <FormLabel className="cursor-pointer font-medium mb-1">
+                              <FormLabel className="cursor-pointer font-medium mb-1 text-gray-900">
                                 {language === 'en' ? "Male" : "পুরুষ"}
                               </FormLabel>
                               <RadioGroupItem value="male" className="sr-only" />
@@ -245,7 +252,7 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                             onClick={() => form.setValue('gender', 'female')}
                             >
                               <Users className="h-12 w-12 text-pink-600 mb-2" />
-                              <FormLabel className="cursor-pointer font-medium mb-1">
+                              <FormLabel className="cursor-pointer font-medium mb-1 text-gray-900">
                                 {language === 'en' ? "Female" : "মহিলা"}
                               </FormLabel>
                               <RadioGroupItem value="female" className="sr-only" />
@@ -263,9 +270,9 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                       name="date"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>{language === 'en' ? "Date" : "তারিখ"}</FormLabel>
+                          <FormLabel className="text-gray-900">{language === 'en' ? "Date" : "তারিখ"}</FormLabel>
                           <FormControl>
-                            <Input type="date" {...field} />
+                            <Input type="date" {...field} className="bg-white border-gray-300 text-gray-900" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -277,9 +284,9 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                       name="time"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>{language === 'en' ? "Time" : "সময়"}</FormLabel>
+                          <FormLabel className="text-gray-900">{language === 'en' ? "Time" : "সময়"}</FormLabel>
                           <FormControl>
-                            <Input type="time" {...field} />
+                            <Input type="time" {...field} className="bg-white border-gray-300 text-gray-900" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -299,7 +306,7 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                           />
                         </FormControl>
                         <div className="space-y-1 leading-none">
-                          <FormLabel>
+                          <FormLabel className="text-gray-900">
                             {language === 'en' 
                               ? "I agree to the terms and conditions" 
                               : "আমি শর্তাবলীতে সম্মত"
@@ -316,7 +323,7 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Check className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-lg font-medium mb-2">
+                <h3 className="text-lg font-medium mb-2 text-gray-900">
                   {language === 'en' ? "Booking Confirmed!" : "বুকিং নিশ্চিত হয়েছে!"}
                 </h3>
                 <p className="text-gray-500 mb-4">
@@ -325,25 +332,25 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                     : "আমরা শীঘ্রই আপনাকে একটি নিশ্চিতকরণ বার্তা পাঠাব।"}
                 </p>
                 <div className="p-4 bg-gray-50 rounded-lg text-left">
-                  <p className="text-sm mb-1"><span className="font-medium">{language === 'en' ? "Booking ID: " : "বুকিং আইডি: "}</span>BK{Math.floor(100000 + Math.random() * 900000)}</p>
-                  <p className="text-sm mb-1"><span className="font-medium">{language === 'en' ? "Date: " : "তারিখ: "}</span>{form.getValues().date}</p>
-                  <p className="text-sm mb-1"><span className="font-medium">{language === 'en' ? "Time: " : "সময়: "}</span>{form.getValues().time}</p>
-                  <p className="text-sm"><span className="font-medium">{language === 'en' ? "Care Provider: " : "সেবা প্রদানকারী: "}</span>{language === 'en' ? (form.getValues().gender === 'male' ? 'Male' : 'Female') : (form.getValues().gender === 'male' ? 'পুরুষ' : 'মহিলা')}</p>
+                  <p className="text-sm mb-1 text-gray-900"><span className="font-medium">{language === 'en' ? "Booking ID: " : "বুকিং আইডি: "}</span>BK{Math.floor(100000 + Math.random() * 900000)}</p>
+                  <p className="text-sm mb-1 text-gray-900"><span className="font-medium">{language === 'en' ? "Date: " : "তারিখ: "}</span>{form.getValues().date}</p>
+                  <p className="text-sm mb-1 text-gray-900"><span className="font-medium">{language === 'en' ? "Time: " : "সময়: "}</span>{form.getValues().time}</p>
+                  <p className="text-sm text-gray-900"><span className="font-medium">{language === 'en' ? "Care Provider: " : "সেবা প্রদানকারী: "}</span>{language === 'en' ? (form.getValues().gender === 'male' ? 'Male' : 'Female') : (form.getValues().gender === 'male' ? 'পুরুষ' : 'মহিলা')}</p>
                 </div>
               </div>
             )}
           </div>
           
-          <DrawerFooter>
-            <div className="border-t pt-4">
-              <div className="flex justify-between text-lg font-semibold mb-4">
+          <DrawerFooter className="bg-white border-t border-gray-100">
+            <div className="pt-4">
+              <div className="flex justify-between text-lg font-semibold mb-4 text-gray-900">
                 <span>{language === 'en' ? "Total" : "মোট"}</span>
                 <span>৳{calculateTotal()}</span>
               </div>
               
               {step === 'summary' ? (
                 <Button 
-                  className="w-full bg-gradient-to-r from-primary to-accent" 
+                  className="w-full bg-gradient-to-r from-primary to-accent text-white" 
                   disabled={bookingItems.length === 0}
                   onClick={handleProceedToDetails}
                 >
@@ -351,14 +358,14 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
                 </Button>
               ) : step === 'details' ? (
                 <Button 
-                  className="w-full bg-gradient-to-r from-primary to-accent" 
+                  className="w-full bg-gradient-to-r from-primary to-accent text-white" 
                   onClick={handleConfirmBooking}
                 >
                   {language === 'en' ? "Confirm Booking" : "বুকিং নিশ্চিত করুন"}
                 </Button>
               ) : (
                 <Button 
-                  className="w-full" 
+                  className="w-full bg-white text-gray-900 border border-gray-300" 
                   variant="outline"
                   onClick={onClose}
                 >
@@ -369,7 +376,7 @@ const BookingDrawer: React.FC<BookingDrawerProps> = ({
               {step !== 'confirmation' && (
                 <Button 
                   variant="outline" 
-                  className="w-full mt-2" 
+                  className="w-full mt-2 bg-white text-gray-900 border border-gray-300" 
                   onClick={step === 'details' ? () => setStep('summary') : onClose}
                 >
                   {step === 'details' 

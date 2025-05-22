@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ServiceDetail } from "../data/servicesData";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Check } from "lucide-react";
@@ -15,6 +15,19 @@ const ServiceMenu: React.FC<ServiceMenuProps> = ({ services, onAddToBooking }) =
   const { language } = useLanguage();
   const [selectedServices, setSelectedServices] = useState<ServiceDetail[]>([]);
   const fontClass = language === 'bn' ? 'font-bangla' : '';
+  
+  // Force light mode
+  useEffect(() => {
+    document.documentElement.classList.add('light');
+    document.documentElement.classList.remove('dark');
+    
+    // Apply light mode styles to root
+    const root = document.documentElement;
+    root.style.setProperty('--background', '#FDFAFC');
+    root.style.setProperty('--foreground', '#000000');
+    root.style.setProperty('--card', '#ffffff');
+    root.style.setProperty('--card-foreground', '#000000');
+  }, []);
 
   const toggleServiceSelection = (service: ServiceDetail) => {
     if (selectedServices.some(s => s.id === service.id)) {
@@ -71,12 +84,12 @@ const ServiceMenu: React.FC<ServiceMenuProps> = ({ services, onAddToBooking }) =
     <div className={`service-menu ${fontClass}`}>
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
         <div className="bg-gradient-to-r from-secondary via-secondary/80 to-secondary/50 p-4">
-          <h2 className="text-lg font-semibold">
+          <h2 className="text-lg font-semibold text-gray-900">
             {language === 'en' ? "Select Services" : "সেবা নির্বাচন করুন"}
           </h2>
         </div>
         
-        <div className="p-4 space-y-3">
+        <div className="p-4 space-y-3 bg-white">
           {services.map((service) => (
             <div
               key={service.id}
@@ -110,9 +123,9 @@ const ServiceMenu: React.FC<ServiceMenuProps> = ({ services, onAddToBooking }) =
         </div>
         
         {selectedServices.length > 0 && (
-          <div className="px-4 pb-4">
+          <div className="px-4 pb-4 bg-white">
             <div className="p-3 bg-gradient-to-r from-accent/30 to-accent/10 rounded-lg">
-              <div className="flex justify-between font-semibold">
+              <div className="flex justify-between font-semibold text-gray-900">
                 <span>{language === 'en' ? "Total Selected" : "মোট নির্বাচিত"}</span>
                 <span>৳{calculateTotal()}</span>
               </div>
@@ -120,10 +133,10 @@ const ServiceMenu: React.FC<ServiceMenuProps> = ({ services, onAddToBooking }) =
           </div>
         )}
         
-        <div className="p-4 border-t">
+        <div className="p-4 border-t border-gray-100 bg-white">
           <Button 
             onClick={handleProceedToBooking}
-            className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+            className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white"
           >
             {language === 'en' ? "Proceed to Booking" : "বুকিং এ এগিয়ে যান"}
           </Button>
