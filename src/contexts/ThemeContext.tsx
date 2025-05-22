@@ -11,14 +11,15 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>('light'); // Default to light mode always
+  // Always initialize with light mode first
+  const [theme, setTheme] = useState<Theme>('light');
   
-  // Apply theme when it changes
+  // Apply theme when it changes or on initial load
   useEffect(() => {
     // Save to localStorage
     localStorage.setItem('theme', theme);
     
-    // Update document class for dark mode
+    // Force light mode application
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
       document.documentElement.classList.remove('light');
