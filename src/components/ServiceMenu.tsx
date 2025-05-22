@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { ServiceDetail } from "../data/servicesData";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Check } from "lucide-react";
+import { Check, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 
@@ -60,24 +60,38 @@ const ServiceMenu: React.FC<ServiceMenuProps> = ({ services, onAddToBooking }) =
     });
   };
 
-  // Enhanced service colors with more attractive gradients
-  const serviceColors: Record<string, string> = {
-    "cannula": "bg-gradient-to-r from-pink-50 via-pink-100 to-pink-50",
-    "saline": "bg-gradient-to-r from-blue-50 via-blue-100 to-blue-50",
-    "bp-check": "bg-gradient-to-r from-red-50 via-red-100 to-red-50",
-    "injection": "bg-gradient-to-r from-purple-50 via-purple-100 to-purple-50",
-    "bathing": "bg-gradient-to-r from-cyan-50 via-cyan-100 to-cyan-50",
-    "blood-sugar": "bg-gradient-to-r from-amber-50 via-amber-200 to-amber-50"
-  };
-
-  // Service icons with emoji representations
-  const serviceIcons: Record<string, string> = {
-    "cannula": "💉",
-    "saline": "💧",
-    "bp-check": "🩸",
-    "injection": "💊",
-    "bathing": "🚿",
-    "blood-sugar": "🔬"
+  // Service icons with professional visual context
+  const serviceIcons: Record<string, { emoji: string, color: string, bgColor: string }> = {
+    "cannula": { 
+      emoji: "💉", 
+      color: "text-blue-600", 
+      bgColor: "bg-blue-50"
+    },
+    "saline": { 
+      emoji: "💧", 
+      color: "text-cyan-600", 
+      bgColor: "bg-cyan-50"
+    },
+    "bp-check": { 
+      emoji: "🩸", 
+      color: "text-red-600", 
+      bgColor: "bg-red-50"
+    },
+    "injection": { 
+      emoji: "💊", 
+      color: "text-purple-600", 
+      bgColor: "bg-purple-50"
+    },
+    "bathing": { 
+      emoji: "🚿", 
+      color: "text-teal-600", 
+      bgColor: "bg-teal-50"
+    },
+    "blood-sugar": { 
+      emoji: "🔬", 
+      color: "text-amber-600", 
+      bgColor: "bg-amber-50"
+    }
   };
 
   return (
@@ -89,37 +103,41 @@ const ServiceMenu: React.FC<ServiceMenuProps> = ({ services, onAddToBooking }) =
           </h2>
         </div>
         
-        <div className="p-4 space-y-3 bg-white">
-          {services.map((service) => (
-            <div
-              key={service.id}
-              onClick={() => toggleServiceSelection(service)}
-              className={`p-4 rounded-lg border-2 flex justify-between items-center cursor-pointer transition-all duration-200 
-                ${selectedServices.some(s => s.id === service.id)
-                  ? "border-primary shadow-md transform scale-[1.01]"
-                  : "border-gray-200 hover:border-gray-300"
-                } ${serviceColors[service.id] || "bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50"}`}
-            >
-              <div className="flex items-center">
-                <div className="text-3xl mr-4 bg-white h-12 w-12 rounded-full flex items-center justify-center shadow-sm">
-                  {serviceIcons[service.id] || "✨"}
+        <div className="p-4 space-y-4 bg-white">
+          {services.map((service) => {
+            const iconData = serviceIcons[service.id] || { emoji: "✨", color: "text-gray-600", bgColor: "bg-gray-50" };
+            
+            return (
+              <div
+                key={service.id}
+                onClick={() => toggleServiceSelection(service)}
+                className={`p-4 rounded-lg border-2 flex justify-between items-center cursor-pointer transition-all duration-200 
+                  ${selectedServices.some(s => s.id === service.id)
+                    ? "border-primary shadow-md transform scale-[1.01]"
+                    : "border-gray-200 hover:border-gray-300"
+                  } bg-white`}
+              >
+                <div className="flex items-center">
+                  <div className={`mr-4 ${iconData.bgColor} w-14 h-14 rounded-md flex items-center justify-center shadow-sm border border-gray-100`}>
+                    <div className="text-2xl">{iconData.emoji}</div>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-800">
+                      {language === 'en' ? service.name_en : service.name_bn}
+                    </p>
+                    <p className="text-primary font-semibold">৳{service.price}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-medium text-gray-800">
-                    {language === 'en' ? service.name_en : service.name_bn}
-                  </p>
-                  <p className="text-primary font-semibold">৳{service.price}</p>
+                <div className={`w-6 h-6 rounded-md flex items-center justify-center ${
+                  selectedServices.some(s => s.id === service.id)
+                    ? "bg-primary text-white"
+                    : "border border-gray-300 bg-white"
+                }`}>
+                  {selectedServices.some(s => s.id === service.id) && <Check className="w-4 h-4" />}
                 </div>
               </div>
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                selectedServices.some(s => s.id === service.id)
-                  ? "bg-primary text-white"
-                  : "border border-gray-300 bg-white"
-              }`}>
-                {selectedServices.some(s => s.id === service.id) && <Check className="w-4 h-4" />}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         
         {selectedServices.length > 0 && (
