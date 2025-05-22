@@ -5,6 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Check, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
+import { Card } from "@/components/ui/card";
 
 interface ServiceMenuProps {
   services: ServiceDetail[];
@@ -60,36 +61,30 @@ const ServiceMenu: React.FC<ServiceMenuProps> = ({ services, onAddToBooking }) =
     });
   };
 
-  // Service icons with professional visual context
-  const serviceIcons: Record<string, { emoji: string, color: string, bgColor: string }> = {
+  // Modern service icons with professional visual context
+  const serviceIcons: Record<string, { icon: string, bgColor: string }> = {
     "cannula": { 
-      emoji: "💉", 
-      color: "text-blue-600", 
+      icon: "💉", 
       bgColor: "bg-blue-50"
     },
     "saline": { 
-      emoji: "💧", 
-      color: "text-cyan-600", 
+      icon: "💧", 
       bgColor: "bg-cyan-50"
     },
     "bp-check": { 
-      emoji: "🩸", 
-      color: "text-red-600", 
+      icon: "🩸", 
       bgColor: "bg-red-50"
     },
     "injection": { 
-      emoji: "💊", 
-      color: "text-purple-600", 
+      icon: "💊", 
       bgColor: "bg-purple-50"
     },
     "bathing": { 
-      emoji: "🚿", 
-      color: "text-teal-600", 
+      icon: "🚿", 
       bgColor: "bg-teal-50"
     },
     "blood-sugar": { 
-      emoji: "🔬", 
-      color: "text-amber-600", 
+      icon: "🔬", 
       bgColor: "bg-amber-50"
     }
   };
@@ -103,41 +98,40 @@ const ServiceMenu: React.FC<ServiceMenuProps> = ({ services, onAddToBooking }) =
           </h2>
         </div>
         
-        <div className="p-4 space-y-4 bg-white">
-          {services.map((service) => {
-            const iconData = serviceIcons[service.id] || { emoji: "✨", color: "text-gray-600", bgColor: "bg-gray-50" };
-            
-            return (
-              <div
-                key={service.id}
-                onClick={() => toggleServiceSelection(service)}
-                className={`p-4 rounded-lg border-2 flex justify-between items-center cursor-pointer transition-all duration-200 
-                  ${selectedServices.some(s => s.id === service.id)
-                    ? "border-primary shadow-md transform scale-[1.01]"
-                    : "border-gray-200 hover:border-gray-300"
-                  } bg-white`}
-              >
-                <div className="flex items-center">
-                  <div className={`mr-4 ${iconData.bgColor} w-14 h-14 rounded-md flex items-center justify-center shadow-sm border border-gray-100`}>
-                    <div className="text-2xl">{iconData.emoji}</div>
+        <div className="p-4 bg-white">
+          <div className="grid grid-cols-2 gap-3">
+            {services.map((service) => {
+              const iconData = serviceIcons[service.id] || { icon: "✨", bgColor: "bg-gray-50" };
+              const isSelected = selectedServices.some(s => s.id === service.id);
+              
+              return (
+                <Card
+                  key={service.id}
+                  onClick={() => toggleServiceSelection(service)}
+                  className={`p-0 cursor-pointer transition-all duration-200 overflow-hidden
+                    ${isSelected
+                      ? "ring-2 ring-primary shadow-md transform scale-[1.01]"
+                      : "ring-1 ring-gray-100 hover:ring-gray-300"
+                    } bg-white`}
+                >
+                  <div className={`aspect-square ${iconData.bgColor} flex items-center justify-center`}>
+                    <div className="text-3xl">{iconData.icon}</div>
+                    {isSelected && (
+                      <div className="absolute top-2 right-2 w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                        <Check className="w-3 h-3 text-white" />
+                      </div>
+                    )}
                   </div>
-                  <div>
-                    <p className="font-medium text-gray-800">
+                  <div className="p-2 text-center">
+                    <p className="text-sm font-medium text-gray-800 line-clamp-2">
                       {language === 'en' ? service.name_en : service.name_bn}
                     </p>
-                    <p className="text-primary font-semibold">৳{service.price}</p>
+                    <p className="text-primary font-semibold mt-1">৳{service.price}</p>
                   </div>
-                </div>
-                <div className={`w-6 h-6 rounded-md flex items-center justify-center ${
-                  selectedServices.some(s => s.id === service.id)
-                    ? "bg-primary text-white"
-                    : "border border-gray-300 bg-white"
-                }`}>
-                  {selectedServices.some(s => s.id === service.id) && <Check className="w-4 h-4" />}
-                </div>
-              </div>
-            );
-          })}
+                </Card>
+              );
+            })}
+          </div>
         </div>
         
         {selectedServices.length > 0 && (

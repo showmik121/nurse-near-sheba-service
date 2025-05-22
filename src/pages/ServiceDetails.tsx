@@ -29,6 +29,10 @@ const ServiceDetails = () => {
     root.style.setProperty('--card', '#ffffff');
     root.style.setProperty('--card-foreground', '#000000');
     
+    return () => {
+      // Cleanup - though this won't be applied if navigating to another route
+      // that also sets these properties
+    };
   }, []);
 
   // Find the selected service
